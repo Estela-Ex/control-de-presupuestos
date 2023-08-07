@@ -1,6 +1,6 @@
 import React from "react";
 import NuevoPresupuesto from "./NuevoPresupuesto";
-
+import ControPresupuesto from "./ControlPresupuesto";
 export default function Header({
   presupuesto,
   setPresupuesto,
@@ -13,13 +13,13 @@ export default function Header({
         <h1>Planificador de Gastos</h1>
 
         {isValidPresupuesto ? (
-          <p>Control de Presupuesto</p>
+          <ControPresupuesto presupuesto={presupuesto} />
         ) : (
-        <NuevoPresupuesto
-          presupuesto={presupuesto}
-          setPresupuesto={setPresupuesto}
-          setIsValidPresupuesto={setIsValidPresupuesto}
-        />
+          <NuevoPresupuesto
+            presupuesto={presupuesto}
+            setPresupuesto={setPresupuesto}
+            setIsValidPresupuesto={setIsValidPresupuesto}
+          />
         )}
       </header>
     </>
