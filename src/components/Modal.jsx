@@ -1,6 +1,27 @@
+import { useState } from "react";
+import Mensaje from "./Mensaje"
 import CerrarBtn from "../img/cerrar.svg";
 
-export default function Modal({ setModal, anidarModal, setAnidarModal }) {
+export default function Modal({ setModal, anidarModal, setAnidarModal,guardarGasto }) {
+  const [nombre, setNombre] = useState("");
+  const [cantidad, setCantidad] = useState("");
+  const [categoria, setCategoria] = useState("");
+  const [mensaje, setMensaje] = useState("");
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    if ([nombre, cantidad, categoria].includes("")) {
+      setMensaje("Todos los campos son obligatorios")
+
+      setTimeout(() => {
+        setMensaje("")
+      }, 3000)
+      return;
+    }
+    guardarGasto({nombre,cantidad,categoria})
+  }
+
+
   function ocultarModal() {
     setModal(false);
     setAnidarModal(false);
@@ -10,14 +31,17 @@ export default function Modal({ setModal, anidarModal, setAnidarModal }) {
       <div className="cerrar-modal">
         <img src={CerrarBtn} alt="cerrar modal" onClick={ocultarModal} />
       </div>
-      <form className={`formulario ${anidarModal ? "animar" : ""}`}>
+      <form onSubmit={handleSubmit} className={`formulario ${anidarModal ? "animar" : ""}`}>
         <legend>Nuevo Gasto</legend>
+        {mensaje && <Mensaje tipo="error">{mensaje}</Mensaje>}
         <div className="campo">
           <label htmlFor="nombre">Nombre Gasto</label>
           <input
             id="nombre"
             type="text"
             placeholder="Añade el Nombre del Gasto"
+            value={nombre}
+            onChange={e => setNombre(e.target.value)}
           />
         </div>
         <div className="campo">
@@ -26,11 +50,13 @@ export default function Modal({ setModal, anidarModal, setAnidarModal }) {
             id="Cantidad"
             type="text"
             placeholder="Añade la cantidad del gasto: ej.300"
+            value={cantidad}
+            onChange={e => setCantidad(Number(e.target.value))}
           />
         </div>
         <div className="campo">
           <label htmlFor="categoria">Categoría</label>
-          <select id="categoria">
+          <select id="categoria" value={categoria} onChange={e=>setCategoria(e.target.value)}>
             <option value="">-- Seleccione --</option>
             <option value="ahorro">Ahorro</option>
             <option value="comida">Comida</option>
