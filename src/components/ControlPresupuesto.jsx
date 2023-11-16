@@ -23,7 +23,7 @@ export default function ControPresupuesto({
     const nuevoPorcentaje = (
       ((presupuesto - totalDisponible) / presupuesto) *
       100
-    ).toFixed(2);
+    ).toFixed(0);
 
     setGastado(totalGastos);
     setDisponible(totalDisponible);
@@ -33,10 +33,10 @@ export default function ControPresupuesto({
   }, [gastos]);
 
   const formatearCantidad = (cantidad) => {
-    return cantidad.toLocaleString("en-US", {
+    return cantidad.toLocaleString("sp-EU", {
       style: "currency",
-      currency: "USD",
-    });
+      currency: "EUR",
+    }).split(".")[0];
   };
 
   function handleResetApp() {
